@@ -1,30 +1,32 @@
 import type HostnameType from '../../../domain/hostname/HostnameType';
 import AppsStore from '../../store/app/AppsStore';
-import addAppToHostnames from '../../../application/app/addAppToHostnames';
+import removeAppToHostnames from '../../../application/app/removeAppFromHostnames';
 
 import type AppType from '../../../domain/app/AppType';
-import type { AddAppToHostnamesApiServiceType } from '../../http/app/addAppToHostnames';
+import type { RemoveAppFromHostnamesApiServiceType } from '../../http/app/removeAppFromHostnames';
 import { LoggerInterface } from '../../../domain/logger';
 
-type AddAppToHostnamesPayload = {
+type RemoveAppFromHostnamesPayload = {
   hostnames: HostnameType[];
   appName: string;
 };
 
-export type AddAppToHostnamesMutationConfig = {
+export type RemoveAppFromHostnamesMutationConfig = {
   key: string;
-  apiService: AddAppToHostnamesApiServiceType;
+  apiService: RemoveAppFromHostnamesApiServiceType;
   store: AppsStore;
-  payload: AddAppToHostnamesPayload;
+  payload: RemoveAppFromHostnamesPayload;
   logger: LoggerInterface;
 };
 
-export default function addAppToHostnamesMutation(queryConfig: AddAppToHostnamesMutationConfig): Promise<AppType[]> {
+export default function removeAppFromHostnamesMutation(
+  queryConfig: RemoveAppFromHostnamesMutationConfig
+): Promise<AppType[]> {
   return new Promise(async (resolve, reject) => {
     const prevAppsSnapshot = queryConfig.store.items;
 
     try {
-      const appsOptimisticUpdated = addAppToHostnames(
+      const appsOptimisticUpdated = removeAppToHostnames(
         queryConfig.payload.appName,
         queryConfig.payload.hostnames,
         queryConfig.store.items
@@ -35,7 +37,7 @@ export default function addAppToHostnamesMutation(queryConfig: AddAppToHostnames
       resolve(queryConfig.store.items);
     } catch (error) {
       queryConfig.store.setItems(prevAppsSnapshot);
-      this.logger.error(`Error trying to add ${queryConfig.payload.appName} app to hostnames: ${error}`);
+      this.logger.error(`Error trying to remove ${queryConfig.payload.appName} app to hostnames: ${error}`);
       reject(error);
     }
   });
