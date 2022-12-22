@@ -15,6 +15,8 @@ export type GetUserQueryConfig = {
 
 export default function getUserQuery(queryConfig: GetUserQueryConfig): Promise<UserType> {
   return new Promise(async (resolve) => {
+    // TODO: Implement a data cacheTimeout in each query to the feature
+    //       for now I consider that all data are stale and need call to api to be refresh
     const stale = true;
 
     if (!stale) {
@@ -28,7 +30,7 @@ export default function getUserQuery(queryConfig: GetUserQueryConfig): Promise<U
       queryConfig.store.add(user);
     }
 
-    queryConfig.store.update(user);
+    queryConfig.store.update([user]);
 
     resolve(user);
   });

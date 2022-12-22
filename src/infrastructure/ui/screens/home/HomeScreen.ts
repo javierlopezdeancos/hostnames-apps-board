@@ -4,12 +4,13 @@ import { HomeMainComponent } from './components/main/MainComponent';
 import getHostnamesTopAppsQuery from '../../../query/hostname/getHostnamesTopAppsQuery';
 import getAppsApiService from '../../../http/app/getAppsApiService';
 import LoadingComponent from '../../components/loading';
+import { AppsStoreBusMessagesEnum } from '../../../store/app/AppsStore';
 
 import type { HomeHeaderComponentDataType } from './components/header';
 import type { HomeMainComponentDataType, HomeMainViewModeType } from './components/main';
+import type UserType from '../../../../domain/user/UserType';
 
 import './homeStyles.css';
-import UserType from '../../../../domain/user/UserType';
 
 export type HomeScreenDataType = {
   user?: UserType;
@@ -70,9 +71,10 @@ export class HomeScreen extends Component {
       mode: this.homeMainComponentData.viewMode,
     };
 
+    this.stores.apps.subscribe(AppsStoreBusMessagesEnum.appsStoreHasChanged, this.handleAppsStoreChanges.bind(this));
+
     if (!this.data) {
       this.children = [this.loadingComponent];
-      return;
     }
   }
 
@@ -103,6 +105,10 @@ export class HomeScreen extends Component {
     }
 
     this.mainViewModeSelectorNode.addEventListener('click', this.handleChangeMainViewMode.bind(this));
+  }
+
+  handleAppsStoreChanges(message: String) {
+    this.logger.info(`apps store has changes: '${message}'`);
   }
 
   getScreenData(): void {
