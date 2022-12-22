@@ -61,8 +61,12 @@ Layer dedicated to the implementation details of the previous layers.
 
 ```
 infrastructure/
+    ├─bus/
     ├─http/
     ├─logger/
+    ├─mutation/
+    ├─query/
+    ├─store/
     ├─ui/
     ├─theme/
 ```
@@ -258,7 +262,7 @@ Okay, I know that this class is nothing special, it does not pretend to be, nor 
 
 I know that this class is not a magical solution and that there would be many points to discuss, how the components communicate, how can I add event listeners, how can I improve the render performance, etc.
 
-But in a certain way, to finish this application has allowed me to structure my components in a very comfortable way, being able to granularize their scope without any other pretension.
+But in a certain way, to finish this application has allowed me to structure my components in a very comfortable way, being able to apply granularity in their scope without any other pretension.
 
 This allow to me avoid a lot of repeat code
 
@@ -310,7 +314,7 @@ mountComponent(template?: string): void {
     this.node.innerHTML = this.node.innerHTML + this.template;
   }
 
-  // Rendering children components that has our parent component
+  // Rendering children components that our parent component has
   if (this.children && Array.isArray(this.children)) {
     for (const child of this.children) {
       try {
@@ -323,6 +327,94 @@ mountComponent(template?: string): void {
   }
 }
 ```
+
+#### Stores
+
+We can create as many Stores in infrastructure layer as we need from the interface of the store domain entity `StoreInterface`.
+
+```ts
+export interface StoreInterface {
+  items: any[];
+  bus: BusInterface;
+  isInclude(itemId: string): boolean;
+  setItems(items: any[]): void;
+  get(itemId: string): any;
+  add(item: any): void;
+  remove(itemId: string): void;
+  update(items: any[]): void;
+  clear(): void;
+  subscribe(message: string, eventHandler: EventHandlerType): void;
+}
+```
+
+In the implementation of these Stores we must publish an event every time we produce changes so that, through the subscribe method, any component can listen to these changes and decide what to do when they happen.
+
+To publish and subscribe to these events I have written a simple Event Bus, nothing fancy but it does the job.
+
+I know **a better way would have been to be able to extend a base `Store` class** that already contains all of this functionality of subscribing and publishing events when changes happen to the store, but I have not had more time to refine those details.
+
+The really interesting thing would have been to leave only the possibility of being able to subscribe to an entity store from a `Screen` type component.
+
+Probably it would have been a good idea to extend the `Component` class in a new class called `Screen` that contains these functionalities, in this way we could only use the entities store features in the top level of the components, that is, in the screens.
+
+```mermaid
+flowchart TB
+    EntityStore -- Subscribed to store changes --> AScreen
+    AScreen -- DataB--> BComponent
+    AScreen -- DataC--> CComponent
+    CComponent -- DataD --> DComponent
+    CComponent -- DataE --> EComponent
+```
+
+#### Queries and mutations
+
+Each query or mutation works in the same way. When a component executes a query or a mutation, it looks to see if the data we want is fresh in the cache/store or stale. If they are fresh we will directly return the content of the cache in the store, if they are stale we will call the server with a specific apiService to refresh this data from the server to our cache.
+
+**Queries**
+
+```mermaid
+flowchart LR
+  Component-- Execute ---Query
+  Component-- Is Subscribed to ---EntityStore
+  ApiService --> Query
+  EntityStore --> Query
+  Query-- -Network http call- ---Server
+```
+
+**Mutations**
+
+```mermaid
+flowchart LR
+  Component-- Execute ---Mutation
+  Component-- Is Subscribed to ---EntityStore
+  ApiService --> Mutation
+  EntityStore --> Mutation
+  Mutation-- -Network http call- ---Server
+```
+
+## Testing
+
+I have tested some parts of the code. Generally related to the application layer and its use cases.
+
+For this I have used [Jest](https://jestjs.io/), which is easier to configure, although perhaps if I only needed to test pure functions in unit tests I would try to configure [Mocha](https://mochajs.org/) [Chai](https://www.chaijs.com/) and [Sinon](https://sinonjs.org/) with more time because this environment seems much more reliable and standard to me
+
+I probably should have decoupled some unit tests by mocking some parts since right now, they are coupled and the tests have some integration part and are not 100% unit.
+
+I was working creating those mocks but I ran out of time although at least I left enough evidence of how I would do these tests and I think it is something to add to the evaluation
+
+## Please attention
+
+Please, regarding this section of the requirements:
+
+> Implements the “addAppToHosts” and “removeAppFromHosts” methods, which update the list of applications with higher Apdex whenever any of these methods is called. (Hint: Be warned that when an app gets removed, “getTopAppsByHost” still has to return 25 items). These two methods are not triggered from anywhere in the design: that’s ok, in this case we care about the logic and not about the UI layer.
+
+Since our apps entity store has events to subscribe to from the home screen, we can run a new render whenever we have new data.
+
+This means that, if we execute the `getHostnamesTopAppsQuery` once the subscribers have been notified of these changes, it will return the list of hostnames top apps correctly updated with the new apps ordered by apdex.
+
+Therefore, by design of the pattern, we will always have our dashboard view updated when adding an app or removing it from certain hostnames using the mutations `addAppToHostnamesMutation` and `removeAppFromHostnamesMutation`.
+
+We have in the application layer the pure functions `addAppToHostnames` and `removeAppFromHostnames` use cases that are doing all the insertion/extraction hard work behind the scenes.
 
 ## Commands
 
