@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "author": "Javier Lopez de Ancos",
   "@parcel/transformer-css": {
     "drafts": {
       "nesting": true
