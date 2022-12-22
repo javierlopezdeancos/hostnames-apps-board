@@ -1,0 +1,24 @@
+.abh-home-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-items: center;
+  background: var(--abn-home-panel-background, var(--abh-color-secondary-default));
+  box-shadow: var(--abn-home-panel-box-shadow , var(--abh-box-shadow-default));
+  padding: var(--abn-home-panel-padding, var(--abh-space-default));
+
+  & .abh-home-panel-header .abh-h2 {
+    margin-bottom: var(--abh-home-panel-title-margin-bottom, var(--abh-space-sm-default));
+  }
+
+  & .abh-home-panel-body .abh-home-panel-table {
+    & .abh-home-panel-table-cell {
+      vertical-align: top;
+    }
+
+    & .abh-home-panel-table-cell-position {
+      margin-right: var(--abn-home-panel-table-cell-position-margin-right, calc(var(--abh-space-default) / 2));
+    }
+  }
+}

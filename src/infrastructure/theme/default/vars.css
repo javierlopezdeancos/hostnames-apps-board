@@ -1,0 +1,47 @@
+:root {
+  /* colors */
+  --abh-color-default: rgb(0,0,0);
+  --abh-color-primary-default: rgb(245,245,245);
+  --abh-color-secondary-default: rgb(255, 255, 255);
+  --abh-color-gray-default: rgb(74, 74, 74);
+  --abh-color-background-default: var(--abh-color-primary-default);
+  --abh-color-text-default: var(--abh-color-default);
+  --abh-color-input-border-default: rgb(221, 221, 221);
+  --abh-color-input-background-default: var(--abh-color-secondary-default);
+  --abh-color-tertiary-default: rgb(174, 210, 72);
+  /* font families */
+  --abh-font-family-default: Helvetica Neue, Arial, sans-serif;
+  /* font sizes */
+  --abh-font-size-lg-default: 35px;
+  --abh-font-size-md-default: 18px;
+  --abh-font-size-default: 16px;
+  --abh-font-size-sm-default: 13px;
+  /* font weight */
+  --abh-font-weight-default: 400;
+  --abh-font-weight-bold-default: 700;
+  /* spaces */
+  --abh-space-default: 30px;
+  --abh-space-sm-default: 23px;
+  --abh-space-xs-default: 10px;
+  /* border-radius */
+  --abh-border-radius-default: 3px;
+  /* box shadows */
+  --abh-box-shadow-default: 0px 20px 70px 1px #a8a8a81a;
+  /* breakpoints */
+  --abh-breakpoints-tablet-default: 840px;
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* colors */
+    --abh-color-default: rgb(200,200,200);
+    --abh-color-primary-default: rgb(34, 39, 46);
+    --abh-color-secondary-default: rgb(53, 60, 64);
+    --abh-color-gray-default: rgb(176, 176, 176);
+    --abh-color-background-default: var(--abh-color-primary-default);
+    --abh-color-text-default: var(--abh-color-default);
+    --abh-color-input-border-default: rgb(221, 221, 221);
+    --abh-color-input-background-default: var(--abh-color-secondary-default);
+  }
+}

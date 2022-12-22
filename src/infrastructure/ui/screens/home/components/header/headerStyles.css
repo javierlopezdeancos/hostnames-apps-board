@@ -1,0 +1,31 @@
+.abh-home-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+  width: 100%;
+  padding: var(--abh-home-header-padding, var(--abh-space-default) 0 var(--abh-space-default) 0);
+
+  & .abh-h1 {
+    margin: 0;
+  }
+
+  & .abh-home-header-user {
+    font-size: var(
+      --abh-home-header-user-font-size,
+      var(--abh-font-size-md-default)
+    );
+    font-weight: var(
+      --abh-home-header-user-font-weight,
+      var(--abh-font-weight-default)
+    );
+    margin-left: var(
+      --abh-home-header-user-margin-left,
+      calc(var(--abh-space-sm-default) / 2)
+    );
+  }
+
+  & .abh-home-header-actions {
+    padding-bottom: var(--abh-home-header-top-actions-padding-bottom, 5px);
+  }
+}

@@ -1,0 +1,17 @@
+.abh-loading {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    width: var(--abh-loading-size, 80px);
+    height: var(--abh-loading-size, 80px);
+
+    & path,
+    & rect{
+      fill: var(--abh-loading-color, var(--abh-color-tertiary-default));
+    }
+  }
+}

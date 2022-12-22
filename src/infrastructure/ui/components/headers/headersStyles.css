@@ -1,0 +1,12 @@
+.abh-h1,
+.abh-h2 {
+  font-weight: var(--abh-font-weight-bold, var(--abh-font-weight-bold-default));
+}
+
+.abh-h1 {
+  font-size: var(--abh-font-size, var(--abh-font-size-lg-default));
+}
+
+.abh-h2 {
+  font-size: var(--abh-font-size, var(--abh-font-size-default));
+}

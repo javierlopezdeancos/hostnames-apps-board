@@ -1,0 +1,9 @@
+.abh-app {
+  min-height: 100vh;
+  font-family: var(--abh-app-font-family, var(--abh-font-family-default));
+  font-size: var(--abh-app-font-size, var(--abh-font-size-default));
+  font-weight: var(--abh-app-font-weight, --abh-font-weight-default);
+  color: var(--abh-app-color, var(--abh-color-text-default));
+  background: var(--abh-app-background, var(--abh-color-background-default));
+  padding: var(--abh-app-padding, var(--abh-space-default));
+}

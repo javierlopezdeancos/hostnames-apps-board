@@ -1,0 +1,12 @@
+.abh-home-apps-table {
+  color: var(--abn-apps-table-color, var(--abh-color-gray-default));
+
+  & .abh-home-apps-table-cell {
+    vertical-align: top;
+    padding-bottom: var(--abn-apps-table-cell-position-margin-right, calc(var(--abh-space-default) / 2));
+  }
+
+  & .abh-home-apps-table-cell-position {
+    padding-right: var(--abn-apps-table-cell-position-margin-right, calc(var(--abh-space-default) / 2));
+  }
+}

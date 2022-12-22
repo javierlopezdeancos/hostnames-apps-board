@@ -1,0 +1,19 @@
+.abh-home-main {
+  width: 100%;
+  display: grid;
+  gap: var(--abh-home-main-gap, var(--abh-space-default));
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+
+  &.abh-home-main-list-view-mode {
+    grid-template-columns: 100%;
+
+    & .abh-home-panel {
+      width: var(--abh-home-main-panel-width , calc(100% - calc(var(--abh-space-default)*2)));
+    }
+  }
+
+  & .abh-home-panel {
+    width: var(--abh-home-main-panel-width , 375px);
+  }
+}

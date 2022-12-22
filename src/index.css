@@ -1,0 +1,6 @@
+/* themes */
+@import "./infrastructure/theme/default/vars.css";
+@import "./infrastructure/theme/default/resets.css";
+
+/* components */
+@import "./infrastructure/ui/components/headers/headersStyles.css";

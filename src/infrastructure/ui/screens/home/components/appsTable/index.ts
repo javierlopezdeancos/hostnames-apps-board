@@ -1,0 +1,1 @@
+export { HomeAppsTableComponent } from './AppsTableComponent';
